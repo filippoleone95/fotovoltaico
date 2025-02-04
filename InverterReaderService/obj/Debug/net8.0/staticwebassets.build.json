@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "E2IeI4SiD7zLOpTqBNyD4v86ayj4YGGgUe+TU0Hfsmw=",
+  "Source": "InverterReaderService",
+  "BasePath": "_content/InverterReaderService",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

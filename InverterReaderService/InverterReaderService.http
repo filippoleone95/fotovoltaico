@@ -1,0 +1,6 @@
+@InverterReaderService_HostAddress = http://localhost:5083
+
+GET {{InverterReaderService_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

@@ -1,0 +1,209 @@
+﻿@model List<WebApp.Models.InverterData>
+@using Newtonsoft.Json
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>Dati Inverter</title>
+    <script>
+        var inverterData = @Html.Raw(JsonConvert.SerializeObject(Model));
+    </script>
+</head>
+
+<body>
+    <div class="title p-2">
+        <h2>ID: @if (Model != null && Model.Any())
+            {
+                @Model.FirstOrDefault()?.Id
+            } | Data e ora record:
+            @if (Model != null
+            && Model.Any())
+            {
+                @Model.FirstOrDefault()?.CreatedAt.ToString("dd/MM/yyyy HH:mm:ss")
+            } | Inverter status :
+            @if (Model != null && Model.Any())
+            {
+                @Model.FirstOrDefault()?.Status
+            }
+        </h2>
+    </div>
+    <div class="container diagram">
+        <div class="row align-items-center py-4">
+            <div class="col d-flex justify-content-center">
+                <img src="~/images/electric-factory.png" id="ingresso-energia" class="icon" alt="Icon 1" />
+            </div>
+            <div class="col d-flex justify-content-center">
+                <img src="~/images/right-arrow-green.gif" id="ingresso-energia-arrow" class="icon icon-arrow"
+                    alt="Icon 2" />
+            </div>
+            <div class="col d-flex justify-content-center">
+                <img src="~/images/solar-inverter.png" id="inverter" class="icon" alt="Icon 3" />
+            </div>
+            <div class="col d-flex justify-content-center">
+                <img src="~/images/right-arrow-red.gif" id="fornitura-to-abitazione-arrow" class="icon icon-arrow"
+                    alt="Icon 4" />
+            </div>
+            <div class="col d-flex justify-content-center">
+                <img src="~/images/house.png" id="house" class="icon" alt="Icon 5" />
+            </div>
+        </div>
+        <div class="row justify-content-center py-4">
+            <div class="col-2 d-flex justify-content-center">
+                <img src="~/images/up-arrow-green.gif" id="batteria-arrow" class="icon icon-arrow" />
+            </div>
+        </div>
+        <div class="row justify-content-center py-4">
+            <div class="col-2 d-flex justify-content-center">
+                <img src="~/images/battery.png" id="batteria" class="icon" />
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="AC col">
+                <div class="AC-container">
+                    <div class="AC-item p-2">
+                        <div class="AC-item-title">AC Output Voltage</div>
+                        <div class="AC-item-value value value" id="ACVoltage">
+                            @if (Model != null && Model.Any())
+                            {
+                                @Model.FirstOrDefault()?.ACOutputVoltage
+                            }V
+                        </div>
+                    </div>
+                    <div class="AC-item p-2">
+                        <div class="AC-item-title">AC Output Frequency</div>
+                        <div class="AC-item-value value value" id="ACFrequency">
+                            @if (Model != null && Model.Any())
+                            {
+                                @Model.FirstOrDefault()?.ACOutputFrequency
+                            }Hz
+                        </div>
+                    </div>
+                    <div class="AC-item p-2">
+                        <div class="AC-item-title">AC Output Apparent Power</div>
+                        <div class="AC-item-value value" id="ACApparentPower">
+                            @if (Model != null && Model.Any())
+                            {
+                                @Model.FirstOrDefault()?.ACOutputApparentPower
+                            }VA
+                        </div>
+                    </div>
+                    <div class="AC-item p-2">
+                        <div class="AC-item-title">AC Output Active Power</div>
+                        <div class="AC-item-value value" id="ACActivePower">
+                            @if (Model != null && Model.Any())
+                            {
+                                @Model.FirstOrDefault()?.ACOutputActivePower
+                            }W
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="solar col">
+                <div class="solar-container">
+                    <div class="solar-item p-2">
+                        <div class="solar-item-title">Solar Input Voltage</div>
+                        <div class="solar-item-value value" id="solarVoltage">
+                            @if (Model != null && Model.Any())
+                            {
+                                @Model.FirstOrDefault()?.PVInputVoltage
+                            }V
+                        </div>
+                    </div>
+                    <div class="solar-item p-2">
+                        <div class="solar-item-title">Solar Input Current</div>
+                        <div class="solar-item-value value" id="solarCurrent">
+                            @if (Model != null && Model.Any())
+                            {
+                                @Model.FirstOrDefault()?.PVInputCurrentForBattery
+                            }A
+                        </div>
+                    </div>
+                </div>
+                <div class="solar-item p-2">
+                    <div class="solar-item-title">PV Power</div>
+                    <div class="solar-item-value value" id="pvPower">
+                        @if (Model != null && Model.Any())
+                        {
+                            @(Math.Floor(Model.FirstOrDefault()?.PVInputVoltage *
+                                Model.FirstOrDefault()?.PVInputCurrentForBattery ?? 0))
+                        }W
+                    </div>
+                </div>
+            </div>
+            <div class="grid col">
+                <div class="grid-container">
+                    <div class="grid-item p-2">
+                        <div class="grid-item-title">Grid Voltage</div>
+                        <div class="grid-item-value value" id="gridVoltage">
+                            @if (Model != null && Model.Any())
+                            {
+                                @Model.FirstOrDefault()?.GridVoltage
+                            }V
+                        </div>
+                    </div>
+                    <div class="grid-item p-2">
+                        <div class="grid-item-title">Grid Frequency</div>
+                        <div class="grid-item-value value" id="gridFrequency">
+                            @if (Model != null && Model.Any())
+                            {
+                                @Model.FirstOrDefault()?.GridFrequency
+                            }Hz
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="battery col">
+                <div class="battery-draw">
+                    <div class="battery-level" id="batteryLevel"></div>
+                </div>
+                <div class="battery-container">
+                    <div class="battery-item p-2">
+                        <div class="battery-item-title">Capacity</div>
+                        <div class="battery-item-value value" id="capacity">
+                            @if (Model != null && Model.Any())
+                            {
+                                @Model.FirstOrDefault()?.BatteryCapacity
+                            }%
+                        </div>
+                    </div>
+                    <div class="battery-item p-2">
+                        <div class="battery-item-title">Voltage</div>
+                        <div class="battery-item-value value" id="voltage">
+                            @if (Model != null && Model.Any())
+                            {
+                                @Model.FirstOrDefault()?.BatteryVoltage
+                            }%
+                        </div>
+                    </div>
+                    <div class="battery-item p-2">
+                        <div class="battery-item-title">Charging Current</div>
+                        <div class="battery-item-value value" id="chargingCurrent">
+                            @if (Model != null && Model.Any())
+                            {
+                                @Model.FirstOrDefault()?.BatteryChargingCurrent
+                            }%
+                        </div>
+                    </div>
+                    <div class="battery-item p-2">
+                        <div class="battery-item-title">Discharge Current</div>
+                        <div class="battery-item-value value" id="dischargeCurrent">
+                            @if (Model != null && Model.Any())
+                            {
+                                @Model.FirstOrDefault()?.BatteryDischargeCurrent
+                            }%
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Importa il file JavaScript -->
+    <script defer src="~/js/inverter.js"></script>
+</body>
+
+</html>

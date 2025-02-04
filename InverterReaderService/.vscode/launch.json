@@ -1,0 +1,28 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+      {
+        "name": "Debug InverterReaderService",
+        "type": "coreclr",
+        "request": "launch",
+        "preLaunchTask": "build",
+        "program": "${workspaceFolder}/bin/Debug/net8.0/InverterReaderService.dll",
+        "args": [],
+        "cwd": "${workspaceFolder}",
+        "stopAtEntry": false,
+        "serverReadyAction": {
+          "action": "openExternally",
+          "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
+        },
+        "env": {
+          "DOTNET_ENVIRONMENT": "Development",
+          "PORT_NAME": "/dev/ttyUSB0",
+          "BAUD_RATE": "9600",
+          "TIMEOUT": "5000"
+        },
+        "sourceFileMap": {
+          "/src": "${workspaceFolder}"
+        }
+      }
+    ]
+  }
